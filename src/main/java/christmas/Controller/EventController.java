@@ -1,6 +1,7 @@
 package christmas.Controller;
 
-import christmas.Domain.OrderMenu;
+import christmas.Domain.EventPlanner;
+import christmas.Domain.Menu;
 import christmas.Util.OrderMenuValidator;
 import christmas.View.InputView;
 import christmas.View.OutputView;
@@ -9,17 +10,25 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EventPlannerController {
+public class EventController {
+    public EventPlanner eventPlanner;
     public void evenStart() {
         String visitDate = takeVisitDate();
 
         String orderMenu = takeOrder();
-        List<OrderMenu> orderMenuList = makeOrderMenuList(orderMenu); // 누구의 책임으로 줄 것인가?
-        OutputView.printOrderMenu(orderMenu);
 
+        eventPlanner = new EventPlanner(makeOrderMenuList(orderMenu), visitDate);
+        handleTotalOrderPriceBeforeDiscount();
     }
-    public List<OrderMenu> makeOrderMenuList(String orderMenu){
-        List<OrderMenu> menuList = new ArrayList<>();
+
+    void handleTotalOrderPriceBeforeDiscount(){
+        int preDiscountTotalOrderPrice = eventPlanner.calculatePreDiscountTotalOrderPrice();
+        OutputView.printPreDicountTotalOrderPrice(preDiscountTotalOrderPrice);
+    }
+
+
+    public List<Menu> makeOrderMenuList(String orderMenu){
+        List<Menu> menuList = new ArrayList<>();
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
 
         // 정규표현식에 맞는 패턴을 생성
@@ -30,7 +39,7 @@ public class EventPlannerController {
         while (matcher.find()) {
             String menuName = matcher.group(1);
             int menuQuantity = Integer.parseInt(matcher.group(2));
-            menuList.add(new OrderMenu(menuName, menuQuantity));
+            menuList.add(new Menu(menuName, menuQuantity));
         }
         return menuList;
     }
@@ -50,6 +59,7 @@ public class EventPlannerController {
         try {
             String orderMenu = InputView.readMenuOrder();
             validateOrderMenuForm(orderMenu);
+            OutputView.printOrderMenu(orderMenu);
             return orderMenu;
         } catch (NumberFormatException e) {
             OutputView.printException(e);

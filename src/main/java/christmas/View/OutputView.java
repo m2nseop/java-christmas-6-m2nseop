@@ -1,6 +1,7 @@
 package christmas.View;
 
 import christmas.Message.OutputMessage;
+import christmas.Util.CommaFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,5 +24,10 @@ public class OutputView {
         while (matcher.find()) {
             System.out.println(matcher.group(1) + " " + matcher.group(2) + "개");
         }
+    }
+    public static void printPreDicountTotalOrderPrice(int preDicountTotalOrderPrice){
+        System.out.println(OutputMessage.PRE_DISCOUNT_TOTAL_PRICE_MESSAGE);
+        String price = CommaFormatter.formatWithComma(preDicountTotalOrderPrice);
+        System.out.println(price + "원");
     }
 }

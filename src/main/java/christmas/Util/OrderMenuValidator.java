@@ -1,9 +1,10 @@
 package christmas.Util;
 
 import static christmas.Domain.EventOption.MAX_ORDER_QUANTITY;
+
+import christmas.Domain.MenuBoard;
 import christmas.Message.OutputMessage;
 
-import christmas.Domain.Menu;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -78,7 +79,7 @@ public class OrderMenuValidator {
     }
 
     public static boolean isDrinkMenu(String orderMenu) {
-        for (Menu menu : Menu.values()) {
+        for (MenuBoard menu : MenuBoard.values()) {
             if (orderMenu.equals(menu.getMenuName()) && menu.getMenuCategory().equals("음료")) {
                 return true;
             }
@@ -106,7 +107,7 @@ public class OrderMenuValidator {
 //        return false;
 //    }
     public static boolean isExistMenu(String menu) {
-        for (Menu main : Menu.values()) {
+        for (MenuBoard main : MenuBoard.values()) {
             if (menu.equals(main.getMenuName())) {
                 return true;
             }
@@ -115,7 +116,7 @@ public class OrderMenuValidator {
     }
 
 //    public static boolean isMainMenu(String menu) {
-//        for (Menu main : Menu.values()) {
+//        for (MenuBoard main : MenuBoard.values()) {
 //            if (menu.equals(main.getFoodName())) {
 //                return true;
 //            }
@@ -124,7 +125,7 @@ public class OrderMenuValidator {
 //    }
 //
 //    public static boolean isDessertMenu(String menu) {
-//        for (Menu dessert : Menu.values()) {
+//        for (MenuBoard dessert : MenuBoard.values()) {
 //            if (menu.equals(dessert.getFoodName())) {
 //                return true;
 //            }
@@ -133,7 +134,7 @@ public class OrderMenuValidator {
 //    }
 //
 //    public static boolean isAppetizerMenu(String menu) {
-//        for (Menu appetizer : Menu.values()) {
+//        for (MenuBoard appetizer : MenuBoard.values()) {
 //            if (menu.equals(appetizer.getFoodName())) {
 //                return true;
 //            }
