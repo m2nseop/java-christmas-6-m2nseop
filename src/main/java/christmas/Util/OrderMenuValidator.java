@@ -1,9 +1,9 @@
 package christmas.Util;
 
-import static christmas.Menu.EventOption.MAX_ORDER_QUANTITY;
-import christmas.Message.InvalidOrderError;
+import static christmas.Domain.EventOption.MAX_ORDER_QUANTITY;
+import christmas.Message.OutputMessage;
 
-import christmas.Menu.Menu;
+import christmas.Domain.Menu;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -13,14 +13,14 @@ public class OrderMenuValidator {
     public static void checkValidOrderForm(String input) {
         String pattern = "^[가-힣]+-[0-9]+(,\\s*[가-힣]+-[0-9]+)*$"; // 메뉴 입력 형식
         if (!input.matches(pattern)) {
-            throw new IllegalArgumentException(InvalidOrderError.INVALID_ORDER_FORM_ERROR);
+            throw new IllegalArgumentException(OutputMessage.INVALID_ORDER_FORM_ERROR);
         }
     }
 
     public static void checkValidOrderQuantity(String input) { // 개수가 0이상인가?
         String pattern = "^[가-힣]+-([1-9]\\d*|0*[1-9]\\d+)(,\\s*[가-힣]+-([1-9]\\d*|0*[1-9]\\d+))*$";
         if (!input.matches(pattern)) {
-            throw new IllegalArgumentException(InvalidOrderError.INVALID_ORDER_FORM_ERROR);
+            throw new IllegalArgumentException(OutputMessage.INVALID_ORDER_FORM_ERROR);
         }
     }
 
@@ -37,7 +37,7 @@ public class OrderMenuValidator {
         while (matcher.find()) {
             String menuName = matcher.group(1);
             if (!menuSet.add(menuName)) {
-                throw new IllegalArgumentException(InvalidOrderError.INVALID_ORDER_FORM_ERROR);
+                throw new IllegalArgumentException(OutputMessage.INVALID_ORDER_FORM_ERROR);
             }
         }
     }
@@ -53,7 +53,7 @@ public class OrderMenuValidator {
             menuQuantity += Integer.parseInt(matcher.group(2));
         }
         if (menuQuantity > MAX_ORDER_QUANTITY) {
-            throw new IllegalArgumentException(InvalidOrderError.INVALID_MAX_ORDER_QAUNTITY_ERROR);
+            throw new IllegalArgumentException(OutputMessage.INVALID_MAX_ORDER_QAUNTITY_ERROR);
         }
     }
 
@@ -73,13 +73,13 @@ public class OrderMenuValidator {
             menuNum++;
         }
         if (drinkNum == menuNum) {
-            throw new IllegalArgumentException(InvalidOrderError.MENU_CONTAIN_ONLY_DRINK_ERROR);
+            throw new IllegalArgumentException(OutputMessage.MENU_CONTAIN_ONLY_DRINK_ERROR);
         }
     }
 
-    public static boolean isDrinkMenu(String menu) {
-        for (Menu drink : Menu.values()) {
-            if (menu.equals(drink.getFoodName())) {
+    public static boolean isDrinkMenu(String orderMenu) {
+        for (Menu menu : Menu.values()) {
+            if (orderMenu.equals(menu.getFoodName()) && menu.getFoodCategory().equals("음료")) {
                 return true;
             }
         }
@@ -94,7 +94,7 @@ public class OrderMenuValidator {
 
         while (matcher.find()) {
             if (!isExistMenu(matcher.group(1))) {
-                throw new IllegalArgumentException(InvalidOrderError.NOT_EXIST_MENU_ERROR);
+                throw new IllegalArgumentException(OutputMessage.NOT_EXIST_MENU_ERROR);
             }
         }
     }

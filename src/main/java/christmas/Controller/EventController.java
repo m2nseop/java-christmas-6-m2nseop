@@ -1,30 +1,47 @@
 package christmas.Controller;
 
-import christmas.Message.EventMessage;
+import christmas.Message.OutputMessage;
 import christmas.Util.OrderMenuValidator;
 import christmas.View.InputView;
 import christmas.View.OutputView;
 
 public class EventController {
-    public void run(){
-        System.out.println(EventMessage.DECEMBER_EVENT_MESSAGE); // 인삿말
-        String visitDate = InputView.readVisitDate();
-        proccessOrder();
+    public void evenStart() {
+        takeVisitDate();
+
+        takeOrder();
     }
 
-    public static void proccessOrder() {
+    public void takeVisitDate() {
         try {
-            String orderedMenu = InputView.readMenuOrder();
-            OrderMenuValidator.checkValidOrderForm(orderedMenu);
-            OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
-            OrderMenuValidator.checkDuplicateMenu(orderedMenu);
-            OrderMenuValidator.checkMaxOrderQuantity(orderedMenu);
-            OrderMenuValidator.checkExistingMenu(orderedMenu);
-            OrderMenuValidator.checkMenuContainsOnlyDrink(orderedMenu);
+            OutputView.printWelcomeMessage();
+            String visitDate = InputView.readVisitDate();
         } catch (IllegalArgumentException e) {
             OutputView.printException(e);
-            proccessOrder();
+            takeVisitDate();
         }
+    }
 
+    public void takeOrder() {
+        try {
+            String orderedMenu = InputView.readMenuOrder();
+            validateOrderedMenuForm(orderedMenu);
+            OutputView.printOrderedMenu(orderedMenu);
+        } catch (NumberFormatException e) {
+            OutputView.printException(e);
+            takeOrder();
+        } catch (IllegalArgumentException e) {
+            OutputView.printException(e);
+            takeOrder();
+        }
+    }
+
+    public void validateOrderedMenuForm(String orderedMenu) {
+        OrderMenuValidator.checkValidOrderForm(orderedMenu);
+        OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
+        OrderMenuValidator.checkDuplicateMenu(orderedMenu);
+        OrderMenuValidator.checkMaxOrderQuantity(orderedMenu);
+        OrderMenuValidator.checkExistingMenu(orderedMenu);
+        OrderMenuValidator.checkMenuContainsOnlyDrink(orderedMenu);
     }
 }
