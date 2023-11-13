@@ -13,7 +13,6 @@ public class EventPlanner {
         int totalOrderPrice = 0;
         for(Menu menu : orderMenu){
             totalOrderPrice += menu.getMenuPrice() * menu.getMenuQuantity();
-            System.out.println(totalOrderPrice);
         }
         return totalOrderPrice;
     }

@@ -1,5 +1,6 @@
 package christmas.View;
 
+import christmas.Domain.EventOption;
 import christmas.Message.OutputMessage;
 import christmas.Util.CommaFormatter;
 import java.util.regex.Matcher;
@@ -15,7 +16,7 @@ public class OutputView {
     }
 
     public static void printOrderMenu(String orderedMenu) {
-        System.out.println("<주문 메뉴>");
+        System.out.println(OutputMessage.ORDER_MENU_MESSAGE);
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
         // 정규표현식에 맞는 패턴을 생성
         Pattern regexPattern = Pattern.compile(pattern);
@@ -29,5 +30,14 @@ public class OutputView {
         System.out.println(OutputMessage.PRE_DISCOUNT_TOTAL_PRICE_MESSAGE);
         String price = CommaFormatter.formatWithComma(preDicountTotalOrderPrice);
         System.out.println(price + "원");
+    }
+    public static void printGiftMenu(int preDiscountTotalOrderPrice){
+        System.out.println(OutputMessage.EVENT_GIFT_MENU_MESSAGE);
+        if(preDiscountTotalOrderPrice >= 120000){
+            System.out.println(EventOption.GIFT_MENU + " " + EventOption.GIFT_MENU_QUANTITY + "개");
+        }
+        if(preDiscountTotalOrderPrice < 120000){
+            System.out.println("없음");
+        }
     }
 }

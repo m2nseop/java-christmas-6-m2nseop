@@ -5,6 +5,7 @@ public class EventOption {
     public static final int EVENT_END_DATE = 31;
     public static final int MAX_ORDER_QUANTITY = 20;
     public static final int GIFT_MENU_QUANTITY = 1;
+    public static final String GIFT_MENU = "샴페인";
     private EventOption() {
         // 불필요한 인스턴스 생성 방지
     }

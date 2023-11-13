@@ -21,9 +21,10 @@ public class EventController {
         handleTotalOrderPriceBeforeDiscount();
     }
 
-    void handleTotalOrderPriceBeforeDiscount(){
+    public void handleTotalOrderPriceBeforeDiscount(){
         int preDiscountTotalOrderPrice = eventPlanner.calculatePreDiscountTotalOrderPrice();
         OutputView.printPreDicountTotalOrderPrice(preDiscountTotalOrderPrice);
+        OutputView.printGiftMenu(preDiscountTotalOrderPrice);
     }
 
 
