@@ -1,16 +1,9 @@
 package christmas.Util;
 
-import static christmas.Message.InvalidOrderError.ERROR_MESSAGE;
-import static christmas.Message.InvalidOrderError.INVALID_MAX_ORDER_QAUNTITY_ERROR;
-import static christmas.Message.InvalidOrderError.INVALID_ORDER_FORM_ERROR;
-import static christmas.Message.InvalidOrderError.MAX_ORDER_QUANTITY;
-import static christmas.Message.InvalidOrderError.MENU_CONTAIN_ONLY_DRINK_ERROR;
-import static christmas.Message.InvalidOrderError.NOT_EXIST_MENU_ERROR;
+import static christmas.Menu.EventOption.MAX_ORDER_QUANTITY;
+import christmas.Message.InvalidOrderError;
 
-import christmas.Menu.AppetizerMenu;
-import christmas.Menu.DessertMenu;
-import christmas.Menu.DrinkMenu;
-import christmas.Menu.MainMenu;
+import christmas.Menu.Menu;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -20,14 +13,14 @@ public class OrderMenuValidator {
     public static void checkValidOrderForm(String input) {
         String pattern = "^[가-힣]+-[0-9]+(,\\s*[가-힣]+-[0-9]+)*$"; // 메뉴 입력 형식
         if (!input.matches(pattern)) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + INVALID_ORDER_FORM_ERROR);
+            throw new IllegalArgumentException(InvalidOrderError.INVALID_ORDER_FORM_ERROR);
         }
     }
 
     public static void checkValidOrderQuantity(String input) { // 개수가 0이상인가?
         String pattern = "^[가-힣]+-([1-9]\\d*|0*[1-9]\\d+)(,\\s*[가-힣]+-([1-9]\\d*|0*[1-9]\\d+))*$";
         if (!input.matches(pattern)) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + INVALID_ORDER_FORM_ERROR);
+            throw new IllegalArgumentException(InvalidOrderError.INVALID_ORDER_FORM_ERROR);
         }
     }
 
@@ -44,7 +37,7 @@ public class OrderMenuValidator {
         while (matcher.find()) {
             String menuName = matcher.group(1);
             if (!menuSet.add(menuName)) {
-                throw new IllegalArgumentException(ERROR_MESSAGE + INVALID_ORDER_FORM_ERROR);
+                throw new IllegalArgumentException(InvalidOrderError.INVALID_ORDER_FORM_ERROR);
             }
         }
     }
@@ -60,7 +53,7 @@ public class OrderMenuValidator {
             menuQuantity += Integer.parseInt(matcher.group(2));
         }
         if (menuQuantity > MAX_ORDER_QUANTITY) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + INVALID_MAX_ORDER_QAUNTITY_ERROR);
+            throw new IllegalArgumentException(InvalidOrderError.INVALID_MAX_ORDER_QAUNTITY_ERROR);
         }
     }
 
@@ -74,71 +67,77 @@ public class OrderMenuValidator {
         // 매칭된 결과를 출력
 
         while (matcher.find()) {
-            if(isDrinkMenu(matcher.group(1))){
+            if (isDrinkMenu(matcher.group(1))) {
                 drinkNum++;
             }
             menuNum++;
         }
         if (drinkNum == menuNum) {
-            throw new IllegalArgumentException(ERROR_MESSAGE + MENU_CONTAIN_ONLY_DRINK_ERROR);
+            throw new IllegalArgumentException(InvalidOrderError.MENU_CONTAIN_ONLY_DRINK_ERROR);
         }
     }
 
-    public static boolean isDrinkMenu(String menu){
-        for (DrinkMenu drink : DrinkMenu.values()) {
-            if(menu.equals(drink.getFoodName())){
+    public static boolean isDrinkMenu(String menu) {
+        for (Menu drink : Menu.values()) {
+            if (menu.equals(drink.getFoodName())) {
                 return true;
             }
         }
         return false;
     }
 
-    public static void checkExistingMenu(String input){
+    public static void checkExistingMenu(String input) {
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
         // 정규표현식에 맞는 패턴을 생성
         Pattern regexPattern = Pattern.compile(pattern);
         Matcher matcher = regexPattern.matcher(input);
 
         while (matcher.find()) {
-            if(!isExistMenu(matcher.group(1))) {
-                throw new IllegalArgumentException(ERROR_MESSAGE + NOT_EXIST_MENU_ERROR);
+            if (!isExistMenu(matcher.group(1))) {
+                throw new IllegalArgumentException(InvalidOrderError.NOT_EXIST_MENU_ERROR);
             }
         }
     }
 
-    public static boolean isExistMenu(String menu){
-        if( isAppetizerMenu(menu) || isMainMenu(menu) || isDessertMenu(menu) || isDrinkMenu(menu)){
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isMainMenu(String menu){
-        for (MainMenu main : MainMenu.values()) {
-            System.out.println(menu);
-            System.out.println(menu.equals(main.getFoodName()));
-            if(menu.equals(main.getFoodName())){
+//    public static boolean isExistMenu(String menu) {
+//        if (isAppetizerMenu(menu) || isMainMenu(menu) || isDessertMenu(menu) || isDrinkMenu(menu)) {
+//            return true;
+//        }
+//        return false;
+//    }
+    public static boolean isExistMenu(String menu) {
+        for (Menu main : Menu.values()) {
+            if (menu.equals(main.getFoodName())) {
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean isDessertMenu(String menu){
-        for (DessertMenu dessert : DessertMenu.values()) {
-            if(menu.equals(dessert.getFoodName())){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean isAppetizerMenu(String menu){
-        for (AppetizerMenu appetizer : AppetizerMenu.values()) {
-            if(menu.equals(appetizer.getFoodName())){
-                return true;
-            }
-        }
-        return false;
-    }
+//    public static boolean isMainMenu(String menu) {
+//        for (Menu main : Menu.values()) {
+//            if (menu.equals(main.getFoodName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public static boolean isDessertMenu(String menu) {
+//        for (Menu dessert : Menu.values()) {
+//            if (menu.equals(dessert.getFoodName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    public static boolean isAppetizerMenu(String menu) {
+//        for (Menu appetizer : Menu.values()) {
+//            if (menu.equals(appetizer.getFoodName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 }
