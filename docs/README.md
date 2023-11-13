@@ -12,13 +12,12 @@
 - [x] 주문 메뉴와 개수 입력받기 - InputView | readMenuOrder
   - [x] (예외처리) 공백, null이 아니여야한다. - isEmpty()
   - [x] (예외처리) 주문 입력형식이 다른 경우 - checkValidOrderForm()
-  - [x] (예외처리) 메뉴의 개수가 1 이상의 숫자가 아닐 경우 - checkValidOrderQuantity()
   // 주문메뉴-주문수량 or 주문메뉴-주문수량,주문메뉴-주문수량 형식까지 검증 완료
   - [x] (예외처리) 중복 메뉴를 입력한 경우 - checkDuplicateMenu()
   - [x] (예외처리) 주문 메뉴 최대 개수는 20개 까지 가능하다. - checkMaxOrderQuantity()
   - [x] (예외처리) 메뉴판에 없는 메뉴를 주문할 경우 - checkExistingMenu()
   - [x] (예외처리) 음료수만 시킬 수는 없다 - checkMenuContainsOnlyDrink()
-- [] 주문 메뉴 출력 (순서는 자유 -> 입력받은 순으로 출력하면 될 듯)
+- [x] 주문 메뉴 출력 (순서는 자유 -> 입력받은 순으로 출력하면 될 듯) - printOrderedMenu()
 - [] 할인 전 총주문 금액 출력
 - [] 증정 메뉴 출력
   - [] (예외처리) 증정할 메뉴가 없으면 "없음"으로 출력한다.
