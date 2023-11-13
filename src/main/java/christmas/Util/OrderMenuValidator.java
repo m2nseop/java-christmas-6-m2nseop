@@ -79,7 +79,7 @@ public class OrderMenuValidator {
 
     public static boolean isDrinkMenu(String orderMenu) {
         for (Menu menu : Menu.values()) {
-            if (orderMenu.equals(menu.getFoodName()) && menu.getFoodCategory().equals("음료")) {
+            if (orderMenu.equals(menu.getMenuName()) && menu.getMenuCategory().equals("음료")) {
                 return true;
             }
         }
@@ -107,7 +107,7 @@ public class OrderMenuValidator {
 //    }
     public static boolean isExistMenu(String menu) {
         for (Menu main : Menu.values()) {
-            if (menu.equals(main.getFoodName())) {
+            if (menu.equals(main.getMenuName())) {
                 return true;
             }
         }

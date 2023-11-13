@@ -13,7 +13,7 @@ public class OutputView {
         System.out.println(OutputMessage.ERROR_MESSAGE + e.getMessage());
     }
 
-    public static void printOrderedMenu(String orderedMenu) {
+    public static void printOrderMenu(String orderedMenu) {
         System.out.println("<주문 메뉴>");
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
         // 정규표현식에 맞는 패턴을 생성
