@@ -37,7 +37,7 @@ public class InputView {
     public static void validateNumber(String input) {
         for (char c : input.toCharArray()) {
             if (!Character.isDigit(c)) {
-                throw new NumberFormatException(NOT_A_NUMBER_ERROR);
+                throw new NumberFormatException(NOT_A_VALID_DATE);
             }
         }
     }

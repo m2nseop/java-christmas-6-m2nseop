@@ -66,4 +66,9 @@ public class OutputView {
         String price = CommaFormatter.formatWithComma(discountedTotalAmount);
         System.out.println(price + "원");
     }
+
+    public static void printEventBadgeType(String eventBadgeType){
+        System.out.println(OutputMessage.DECEMBER_EVENT_BADGE_MESSAGE);
+        System.out.println(eventBadgeType);
+    }
 }

@@ -32,6 +32,7 @@ public class EventController {
         int discountedTotalAmount = eventPlanner.calculateDiscountedTotalAmount(receivedBenefits, preDiscountTotalOrderPrice);
         OutputView.printDiscountedTotalAmount(discountedTotalAmount);
         String eventBadgeType = eventPlanner.caculateEventBadgeType(benefitsTotalAmount);
+        OutputView.printEventBadgeType(eventBadgeType);
     }
 
     public int handleTotalOrderPriceBeforeDiscount() {
