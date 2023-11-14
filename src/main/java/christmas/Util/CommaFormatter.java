@@ -9,11 +9,16 @@ public class CommaFormatter {
             return numberStr; // 세 자리 미만이면 그대로 반환
         }
 
-        StringBuilder result = new StringBuilder();
-        int count = 0;
+        String result = insertComma(numberStr, length);
 
+        return result;
+    }
+
+    private static String insertComma(String number, int length){
+        int count = 0;
+        StringBuilder result = new StringBuilder();
         for (int i = length - 1; i >= 0; i--) {
-            result.insert(0, numberStr.charAt(i));
+            result.insert(0, number.charAt(i));
             count++;
 
             if (count == 3 && i != 0) {
@@ -21,7 +26,6 @@ public class CommaFormatter {
                 count = 0;
             }
         }
-
         return result.toString();
     }
 }

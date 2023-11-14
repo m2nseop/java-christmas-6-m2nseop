@@ -7,28 +7,38 @@ import christmas.View.InputView;
 import christmas.View.OutputView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EventController {
     public EventPlanner eventPlanner;
+
     public void evenStart() {
         String visitDate = takeVisitDate();
 
         String orderMenu = takeOrder();
-
         eventPlanner = new EventPlanner(makeOrderMenuList(orderMenu), visitDate);
-        handleTotalOrderPriceBeforeDiscount();
+        int preDiscountTotalOrderPrice = handleTotalOrderPriceBeforeDiscount();
+        handleBenefit(visitDate, preDiscountTotalOrderPrice);
     }
 
-    public void handleTotalOrderPriceBeforeDiscount(){
+    public void handleBenefit(String visitDate, int preDiscountTotalOrderPrice) {
+        Map<String, Integer> categoryCount = eventPlanner.calculateCategoryCount();
+        Map<String, Integer> receivedBenefits = eventPlanner.calculateReceivedBenefits(categoryCount, preDiscountTotalOrderPrice);
+//        int receivedBenefitsAmount = eventPlanner.caculateReceivedBenefitsAmount(receivedBenefits);
+        OutputView.printReceivedBenefits(receivedBenefits);
+    }
+
+    public int handleTotalOrderPriceBeforeDiscount() {
         int preDiscountTotalOrderPrice = eventPlanner.calculatePreDiscountTotalOrderPrice();
         OutputView.printPreDicountTotalOrderPrice(preDiscountTotalOrderPrice);
         OutputView.printGiftMenu(preDiscountTotalOrderPrice);
+        return preDiscountTotalOrderPrice;
     }
 
 
-    public List<Menu> makeOrderMenuList(String orderMenu){
+    public List<Menu> makeOrderMenuList(String orderMenu) {
         List<Menu> menuList = new ArrayList<>();
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
 

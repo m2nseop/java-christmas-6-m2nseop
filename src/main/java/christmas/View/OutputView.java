@@ -3,6 +3,7 @@ package christmas.View;
 import christmas.Domain.EventOption;
 import christmas.Message.OutputMessage;
 import christmas.Util.CommaFormatter;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,10 +34,20 @@ public class OutputView {
     }
     public static void printGiftMenu(int preDiscountTotalOrderPrice){
         System.out.println(OutputMessage.EVENT_GIFT_MENU_MESSAGE);
-        if(preDiscountTotalOrderPrice >= 120000){
+        if(preDiscountTotalOrderPrice >= EventOption.MINIMUM_ORDER_PRICE_TO_GET_GIFT_MENU){
             System.out.println(EventOption.GIFT_MENU + " " + EventOption.GIFT_MENU_QUANTITY + "개");
         }
-        if(preDiscountTotalOrderPrice < 120000){
+        if(preDiscountTotalOrderPrice < EventOption.MINIMUM_ORDER_PRICE_TO_GET_GIFT_MENU){
+            System.out.println("없음");
+        }
+    }
+    public static void printReceivedBenefits(Map<String, Integer> receivedBenefits){
+        System.out.println(OutputMessage.RECEIVED_BENEFITS_MESSAGE);
+        for (Map.Entry<String, Integer> entry : receivedBenefits.entrySet()) {
+            String price = CommaFormatter.formatWithComma(entry.getValue());
+            System.out.println(entry.getKey() + ": -" + price + "원");
+        }
+        if(receivedBenefits.isEmpty()){
             System.out.println("없음");
         }
     }

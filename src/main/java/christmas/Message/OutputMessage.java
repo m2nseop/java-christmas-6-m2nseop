@@ -7,6 +7,7 @@ public class OutputMessage {
     public static final String ORDER_MENU_MESSAGE = "<주문 메뉴>";
     public static final String PRE_DISCOUNT_TOTAL_PRICE_MESSAGE = "<할인 전 총주문 금액>";
     public static final String EVENT_GIFT_MENU_MESSAGE = "<증정 메뉴>";
+    public static final String RECEIVED_BENEFITS_MESSAGE = "<혜택 내역>";
     public static final String ERROR_MESSAGE = "[ERROR] ";
     public static final String INVALID_ORDER_FORM_ERROR = "유효하지 않은 주문입니다. 다시 입력해 주세요.";
     public static final String INVALID_MAX_ORDER_QAUNTITY_ERROR = "메뉴는 한 번에 최대 20개까지만 주문할 수 있습니다. 다시 입력해 주세요.";

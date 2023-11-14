@@ -40,4 +40,12 @@ public class Menu {
     public int getMenuQuantity() {
         return this.menuQuantity;
     }
+
+    public String getMenuName() {
+        return this.menuName;
+    }
+
+    public String getMenuCategory() {
+        return this.menuCategory;
+    }
 }
