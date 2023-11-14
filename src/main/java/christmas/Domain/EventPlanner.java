@@ -63,7 +63,16 @@ public class EventPlanner {
         return benefitsTotalAmount;
     }
 
-    public void caculateSpecialDiscount(Map<String, Integer> receivedBenefits) {
+    public int calculateDiscountedTotalAmount(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice){
+        int discountedTotalAmount = preDiscountTotalOrderPrice;
+        for (Map.Entry<String, Integer> benefit : receivedBenefits.entrySet()) {
+            if(benefit.getKey() != EventBenefit.GIFT_MENU.getEventType())
+                discountedTotalAmount -= benefit.getValue();
+        }
+        return discountedTotalAmount;
+    }
+
+    private void caculateSpecialDiscount(Map<String, Integer> receivedBenefits) {
         for (SpecialDiscountDay day : SpecialDiscountDay.values()) {
             if (day.getSpecialEventDay() == this.visitDate) {
                 receivedBenefits.put(EventBenefit.SPECIAL_DISCOUNT.getEventType(),
