@@ -1,5 +1,6 @@
 package christmas.Domain;
 
+import christmas.Util.CommaFormatter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.EnumMap;
@@ -48,6 +49,14 @@ public class EventPlanner {
         checkGiftMenu(receivedBenefits, preDiscountTotalOrderPrice);
         return receivedBenefits;
     }
+    public int caculateBenefitsTotalAmount(Map<String, Integer> receivedBenefits){
+        int benefitsTotalAmount = 0;
+        for (Map.Entry<String, Integer> benefit : receivedBenefits.entrySet()) {
+            benefitsTotalAmount += benefit.getValue();
+        }
+        return benefitsTotalAmount;
+    }
+
     public void caculateSpecialDiscount(Map<String, Integer> receivedBenefits){
         for(SpecialDiscountDay day : SpecialDiscountDay.values()){
             if(day.getSpecialEventDay() == this.visitDate){
