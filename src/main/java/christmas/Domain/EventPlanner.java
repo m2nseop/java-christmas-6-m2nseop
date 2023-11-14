@@ -63,13 +63,24 @@ public class EventPlanner {
         return benefitsTotalAmount;
     }
 
-    public int calculateDiscountedTotalAmount(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice){
+    public int calculateDiscountedTotalAmount(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice) {
         int discountedTotalAmount = preDiscountTotalOrderPrice;
         for (Map.Entry<String, Integer> benefit : receivedBenefits.entrySet()) {
-            if(benefit.getKey() != EventBenefit.GIFT_MENU.getEventType())
+            if (benefit.getKey() != EventBenefit.GIFT_MENU.getEventType()) {
                 discountedTotalAmount -= benefit.getValue();
+            }
         }
         return discountedTotalAmount;
+    }
+
+    public String caculateEventBadgeType(int benefitsTotalAmount) {
+        String badgeType = "";
+        for(EventBadge badge : EventBadge.values()){
+            if(badge.getEventBadgeStandard() <= benefitsTotalAmount){
+                badgeType = badge.getEventBadgeType();
+            }
+        }
+        return badgeType;
     }
 
     private void caculateSpecialDiscount(Map<String, Integer> receivedBenefits) {

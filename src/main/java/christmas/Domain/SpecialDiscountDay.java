@@ -8,7 +8,7 @@ public enum SpecialDiscountDay {
     DAY_TWENTY_FOUR(24),
     DAY_TWENTY_FIVE(25),
     DAY_THIRTY_ONE(31);
-    private int specialEventDay;
+    private final int specialEventDay;
 
     SpecialDiscountDay(int specialEventDay) {
         this.specialEventDay = specialEventDay;
