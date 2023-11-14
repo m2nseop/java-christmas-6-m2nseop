@@ -61,4 +61,9 @@ public class OutputView {
             System.out.println(receivedBenefitsAmount + "원");
         }
     }
+    public static void printDiscountedTotalAmount(int discountedTotalAmount){
+        System.out.println(OutputMessage.DISCOUNTED_TOTAL_AMOUNT_MESSAGE);
+        String price = CommaFormatter.formatWithComma(discountedTotalAmount);
+        System.out.println(price + "원");
+    }
 }

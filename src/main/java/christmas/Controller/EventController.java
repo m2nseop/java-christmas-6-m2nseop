@@ -30,6 +30,7 @@ public class EventController {
         OutputView.printReceivedBenefits(receivedBenefits);
         OutputView.printBenefitsTotalAmount(benefitsTotalAmount);
         int discountedTotalAmount = eventPlanner.calculateDiscountedTotalAmount(receivedBenefits, preDiscountTotalOrderPrice);
+        OutputView.printDiscountedTotalAmount(discountedTotalAmount);
     }
 
     public int handleTotalOrderPriceBeforeDiscount() {
