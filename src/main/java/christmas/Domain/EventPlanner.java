@@ -12,44 +12,50 @@ import java.util.Set;
 public class EventPlanner {
     private final List<Menu> orderMenu;
     private final int visitDate;
+
     public EventPlanner(List<Menu> orderMenu, String visitDate) {
         this.orderMenu = orderMenu;
         this.visitDate = Integer.parseInt(visitDate);
     }
-    public int calculatePreDiscountTotalOrderPrice(){
+
+    public int calculatePreDiscountTotalOrderPrice() {
         int totalOrderPrice = 0;
-        for(Menu menu : orderMenu){
+        for (Menu menu : orderMenu) {
             totalOrderPrice += menu.getMenuPrice() * menu.getMenuQuantity();
         }
         return totalOrderPrice;
     }
 
-    public Map<String, Integer> calculateCategoryCount(){
+    public Map<String, Integer> calculateCategoryCount() {
         Map<String, Integer> categoryCount = new HashMap<>();
         int count = 0;
-        for(Menu menu : orderMenu){
+        for (Menu menu : orderMenu) {
             String menuCategory = menu.getMenuCategory();
-            if(categoryCount.containsKey(menuCategory)){
+            if (categoryCount.containsKey(menuCategory)) {
                 count = categoryCount.get(menuCategory) + menu.getMenuQuantity();
                 categoryCount.put(menuCategory, count);
             }
-            if(!categoryCount.containsKey(menuCategory)){
+            if (!categoryCount.containsKey(menuCategory)) {
                 categoryCount.put(menuCategory, menu.getMenuQuantity());
             }
         }
         return categoryCount;
     }
 
-    public Map<String, Integer> calculateReceivedBenefits(Map<String, Integer> categoryCount, int preDiscountTotalOrderPrice){
+    public Map<String, Integer> calculateReceivedBenefits(Map<String, Integer> categoryCount,
+                                                          int preDiscountTotalOrderPrice) {
         Map<String, Integer> receivedBenefits = new HashMap<>();
-        caculateChristmasDDayDiscount(receivedBenefits);
-        caculateWeekdayDiscount(receivedBenefits, categoryCount);
-        caculateWeekendDiscount(receivedBenefits, categoryCount);
-        caculateSpecialDiscount(receivedBenefits);
-        checkGiftMenu(receivedBenefits, preDiscountTotalOrderPrice);
+        if (preDiscountTotalOrderPrice >= EventOption.MINIMUM_ORDER_PRICE_TO_GET_DISCOUNT) {
+            caculateChristmasDDayDiscount(receivedBenefits);
+            caculateWeekdayDiscount(receivedBenefits, categoryCount);
+            caculateWeekendDiscount(receivedBenefits, categoryCount);
+            caculateSpecialDiscount(receivedBenefits);
+            checkGiftMenu(receivedBenefits, preDiscountTotalOrderPrice);
+        }
         return receivedBenefits;
     }
-    public int caculateBenefitsTotalAmount(Map<String, Integer> receivedBenefits){
+
+    public int caculateBenefitsTotalAmount(Map<String, Integer> receivedBenefits) {
         int benefitsTotalAmount = 0;
         for (Map.Entry<String, Integer> benefit : receivedBenefits.entrySet()) {
             benefitsTotalAmount += benefit.getValue();
@@ -57,23 +63,24 @@ public class EventPlanner {
         return benefitsTotalAmount;
     }
 
-    public void caculateSpecialDiscount(Map<String, Integer> receivedBenefits){
-        for(SpecialDiscountDay day : SpecialDiscountDay.values()){
-            if(day.getSpecialEventDay() == this.visitDate){
-                receivedBenefits.put(EventBenefit.SPECIAL_DISCOUNT.getEventType(), EventBenefit.SPECIAL_DISCOUNT.getBenefitAmount());
+    public void caculateSpecialDiscount(Map<String, Integer> receivedBenefits) {
+        for (SpecialDiscountDay day : SpecialDiscountDay.values()) {
+            if (day.getSpecialEventDay() == this.visitDate) {
+                receivedBenefits.put(EventBenefit.SPECIAL_DISCOUNT.getEventType(),
+                        EventBenefit.SPECIAL_DISCOUNT.getBenefitAmount());
             }
         }
     }
 
-    public void checkGiftMenu(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice){
-        if(preDiscountTotalOrderPrice >= EventOption.MINIMUM_ORDER_PRICE_TO_GET_GIFT_MENU){
+    public void checkGiftMenu(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice) {
+        if (preDiscountTotalOrderPrice >= EventOption.MINIMUM_ORDER_PRICE_TO_GET_GIFT_MENU) {
             receivedBenefits.put(EventBenefit.GIFT_MENU.getEventType(), EventBenefit.GIFT_MENU.getBenefitAmount());
         }
     }
 
-    public void caculateChristmasDDayDiscount(Map<String, Integer> receivedBenefits){
+    public void caculateChristmasDDayDiscount(Map<String, Integer> receivedBenefits) {
         int discount = 0;
-        if(visitDate <= EventOption.CHRISTMAS_D_DAY_EVENT_END_DATE){
+        if (visitDate <= EventOption.CHRISTMAS_D_DAY_EVENT_END_DATE) {
             discount = EventOption.CHRISTMAS_D_DAY_START_DISCOUNT_AMOUNT;
             discount += EventBenefit.CHRISTMAS_D_DAY_DISCOUNT.getBenefitTotalAmount(this.visitDate - 1);
             receivedBenefits.put(EventBenefit.CHRISTMAS_D_DAY_DISCOUNT.getEventType(), discount);
@@ -92,12 +99,15 @@ public class EventPlanner {
         }
     }
 
-    public void caculateWeekendDiscount(Map<String, Integer> receivedBenefits, Map<String, Integer> categoryCount){
+    public void caculateWeekendDiscount(Map<String, Integer> receivedBenefits, Map<String, Integer> categoryCount) {
         int discount = 0;
-        if(isWeekend()) {
-            int countMain = categoryCount.get(EventBenefit.WEEKEND_DISCOUNT.getEventTarget()); // 있는지를 체크
-            discount += EventBenefit.WEEKEND_DISCOUNT.getBenefitTotalAmount(countMain);
-            receivedBenefits.put(EventBenefit.WEEKDAY_DISCOUNT.getEventType(), discount);
+        if (isWeekend()) {
+            try {
+                int countMain = categoryCount.get(EventBenefit.WEEKEND_DISCOUNT.getEventTarget()); // 있는지를 체크
+                discount += EventBenefit.WEEKEND_DISCOUNT.getBenefitTotalAmount(countMain);
+                receivedBenefits.put(EventBenefit.WEEKDAY_DISCOUNT.getEventType(), discount);
+            } catch (NullPointerException e) {
+            }
         }
     }
 
