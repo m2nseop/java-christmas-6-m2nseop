@@ -51,4 +51,14 @@ public class OutputView {
             System.out.println("없음");
         }
     }
+    public static void printBenefitsTotalAmount(int receivedBenefitsAmount){
+        System.out.println(OutputMessage.RECEIVED_BENEFITS_TOTAL_AMOUNT_MESSAGE);
+        if (receivedBenefitsAmount != 0) {
+            String price = CommaFormatter.formatWithComma(receivedBenefitsAmount);
+            System.out.println("-" + price + "원");
+        }
+        if (receivedBenefitsAmount == 0){
+            System.out.println(receivedBenefitsAmount + "원");
+        }
+    }
 }

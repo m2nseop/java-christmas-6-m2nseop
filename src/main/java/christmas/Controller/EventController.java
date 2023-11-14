@@ -26,8 +26,9 @@ public class EventController {
     public void handleBenefit(String visitDate, int preDiscountTotalOrderPrice) {
         Map<String, Integer> categoryCount = eventPlanner.calculateCategoryCount();
         Map<String, Integer> receivedBenefits = eventPlanner.calculateReceivedBenefits(categoryCount, preDiscountTotalOrderPrice);
-        int receivedBenefitsAmount = eventPlanner.caculateBenefitsTotalAmount(receivedBenefits);
+        int benefitsTotalAmount = eventPlanner.caculateBenefitsTotalAmount(receivedBenefits);
         OutputView.printReceivedBenefits(receivedBenefits);
+        OutputView.printBenefitsTotalAmount(benefitsTotalAmount);
     }
 
     public int handleTotalOrderPriceBeforeDiscount() {
