@@ -1,28 +1,26 @@
 package christmas.Domain;
 
-import christmas.Event.EventBadge;
-import christmas.Event.EventBenefit;
-import christmas.Event.EventOption;
-import christmas.Event.SpecialDiscountDay;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
+import christmas.Util.OrderMenuValidator;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EventPlanner {
     private final List<Menu> orderMenu;
-    private final int visitDate;
 
-    public EventPlanner(List<Menu> orderMenu, String visitDate) {
-        this.orderMenu = orderMenu;
-        this.visitDate = Integer.parseInt(visitDate);
+    public EventPlanner(String orderMenu) {
+        validateOrderMenuForm(orderMenu);
+        List<Menu> menu = makeOrderMenuList(orderMenu);
+        this.orderMenu = menu;
     }
 
     public int calculatePreDiscountTotalOrderPrice() {
         int totalOrderPrice = 0;
         for (Menu menu : orderMenu) {
-            totalOrderPrice += menu.getMenuPrice() * menu.getMenuQuantity();
+            totalOrderPrice += menu.getMenuTotalPrice();
         }
         return totalOrderPrice;
     }
@@ -43,88 +41,29 @@ public class EventPlanner {
         return categoryCount;
     }
 
-    public Map<String, Integer> calculateReceivedBenefits(Map<String, Integer> categoryCount,
-                                                          int preDiscountTotalOrderPrice) {
-        Map<String, Integer> receivedBenefits = new HashMap<>();
-        if (preDiscountTotalOrderPrice >= EventOption.MINIMUM_ORDER_PRICE_TO_GET_DISCOUNT) {
-            caculateChristmasDDayDiscount(receivedBenefits);
-            caculateWeekdayDiscount(receivedBenefits, categoryCount);
-            caculateWeekendDiscount(receivedBenefits, categoryCount);
-            caculateSpecialDiscount(receivedBenefits);
-            checkGiftMenu(receivedBenefits, preDiscountTotalOrderPrice);
+    public List<Menu> makeOrderMenuList(String orderMenu) {
+        List<Menu> menuList = new ArrayList<>();
+        String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
+
+        // 정규표현식에 맞는 패턴을 생성
+        Pattern regexPattern = Pattern.compile(pattern);
+        Matcher matcher = regexPattern.matcher(orderMenu);
+
+        // 매칭된 결과를 출력
+        while (matcher.find()) {
+            String menuName = matcher.group(1);
+            int menuQuantity = Integer.parseInt(matcher.group(2));
+            menuList.add(new Menu(menuName, menuQuantity));
         }
-        return receivedBenefits;
+        return menuList;
     }
 
-    public int caculateBenefitsTotalAmount(Map<String, Integer> receivedBenefits) {
-        int benefitsTotalAmount = 0;
-        for (Map.Entry<String, Integer> benefit : receivedBenefits.entrySet()) {
-            benefitsTotalAmount += benefit.getValue();
-        }
-        return benefitsTotalAmount;
-    }
-
-    public int calculateDiscountedTotalAmount(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice) {
-        int discountedTotalAmount = preDiscountTotalOrderPrice;
-        for (Map.Entry<String, Integer> benefit : receivedBenefits.entrySet()) {
-            if (benefit.getKey() != EventBenefit.GIFT_MENU.getEventType()) {
-                discountedTotalAmount -= benefit.getValue();
-            }
-        }
-        return discountedTotalAmount;
-    }
-
-    private void caculateSpecialDiscount(Map<String, Integer> receivedBenefits) {
-        for (SpecialDiscountDay day : SpecialDiscountDay.values()) {
-            if (day.getSpecialEventDay() == this.visitDate) {
-                receivedBenefits.put(EventBenefit.SPECIAL_DISCOUNT.getEventType(),
-                        EventBenefit.SPECIAL_DISCOUNT.getBenefitAmount());
-            }
-        }
-    }
-
-    public void checkGiftMenu(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice) {
-        if (preDiscountTotalOrderPrice >= EventOption.MINIMUM_ORDER_PRICE_TO_GET_GIFT_MENU) {
-            receivedBenefits.put(EventBenefit.GIFT_MENU.getEventType(), EventBenefit.GIFT_MENU.getBenefitAmount());
-        }
-    }
-
-    public void caculateChristmasDDayDiscount(Map<String, Integer> receivedBenefits) {
-        int discount = 0;
-        if (visitDate <= EventOption.CHRISTMAS_D_DAY_EVENT_END_DATE) {
-            discount = EventOption.CHRISTMAS_D_DAY_START_DISCOUNT_AMOUNT;
-            discount += EventBenefit.CHRISTMAS_D_DAY_DISCOUNT.getBenefitTotalAmount(this.visitDate - 1);
-            receivedBenefits.put(EventBenefit.CHRISTMAS_D_DAY_DISCOUNT.getEventType(), discount);
-        }
-    }
-
-    public void caculateWeekdayDiscount(Map<String, Integer> receivedBenefits, Map<String, Integer> categoryCount) {
-        int discount = 0;
-        if (!isWeekend()) {
-            try {
-                int countDessert = categoryCount.get(EventBenefit.WEEKDAY_DISCOUNT.getEventTarget()); // 있는지를 체크
-                discount += EventBenefit.WEEKDAY_DISCOUNT.getBenefitTotalAmount(countDessert);
-                receivedBenefits.put(EventBenefit.WEEKDAY_DISCOUNT.getEventType(), discount);
-            } catch (NullPointerException e) {
-            }
-        }
-    }
-
-    public void caculateWeekendDiscount(Map<String, Integer> receivedBenefits, Map<String, Integer> categoryCount) {
-        int discount = 0;
-        if (isWeekend()) {
-            try {
-                int countMain = categoryCount.get(EventBenefit.WEEKEND_DISCOUNT.getEventTarget()); // 있는지를 체크
-                discount += EventBenefit.WEEKEND_DISCOUNT.getBenefitTotalAmount(countMain);
-                receivedBenefits.put(EventBenefit.WEEKDAY_DISCOUNT.getEventType(), discount);
-            } catch (NullPointerException e) {
-            }
-        }
-    }
-
-    private boolean isWeekend() {
-        LocalDate date = LocalDate.of(EventOption.EVENT_YEAR, EventOption.EVENT_MONTH, this.visitDate);
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
+    public void validateOrderMenuForm(String orderedMenu) {
+        OrderMenuValidator.checkValidOrderForm(orderedMenu);
+        OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
+        OrderMenuValidator.checkDuplicateMenu(orderedMenu);
+        OrderMenuValidator.checkMaxOrderQuantity(orderedMenu);
+        OrderMenuValidator.checkExistingMenu(orderedMenu);
+        OrderMenuValidator.checkMenuContainsOnlyDrink(orderedMenu);
     }
 }

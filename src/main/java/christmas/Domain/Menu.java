@@ -33,6 +33,10 @@ public class Menu {
         return menuPrice;
     }
 
+    public int getMenuTotalPrice() {
+        return this.menuPrice * this.menuQuantity;
+    }
+
     public int getMenuPrice() {
         return menuPrice;
     }

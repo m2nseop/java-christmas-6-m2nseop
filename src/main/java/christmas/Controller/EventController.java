@@ -1,5 +1,6 @@
 package christmas.Controller;
 
+import christmas.Domain.EventBenefitSettler;
 import christmas.Domain.EventPlanner;
 import christmas.Domain.Menu;
 import christmas.Event.EventBadge;
@@ -14,27 +15,57 @@ import java.util.regex.Pattern;
 
 public class EventController {
     public EventPlanner eventPlanner;
+    public EventBenefitSettler eventBenefitSettler;
 
     public void eventStart() {
-        String visitDate = takeVisitDate(); // 방문일 접수
+        takeVisitDate(); // 방문일 접수
 
-        String orderMenu = takeOrder(); // 주문 받기
-        eventPlanner = new EventPlanner(makeOrderMenuList(orderMenu), visitDate);
+        takeOrder(); // 주문 받기
+
         int preDiscountTotalOrderPrice = handleTotalOrderPriceBeforeDiscount();
-        handleBenefit(visitDate, preDiscountTotalOrderPrice);
+
+        handleBenefit(preDiscountTotalOrderPrice);
     }
 
-    public void handleBenefit(String visitDate, int preDiscountTotalOrderPrice) {
+    public void takeVisitDate() {
+        try {
+            OutputView.printWelcomeMessage();
+            String visitDate = InputView.readVisitDate();
+            OrderMenuValidator.isValidDate(visitDate); // 분리할 것인지 고민
+            eventBenefitSettler = new EventBenefitSettler(visitDate);
+        } catch (NumberFormatException e) {
+            OutputView.printException(e);
+            takeVisitDate();
+        } catch (IllegalArgumentException e) {
+            OutputView.printException(e);
+            takeVisitDate();
+        }
+    }
+
+    public void takeOrder() {
+        try {
+            String orderMenu = InputView.readMenuOrder();
+            eventPlanner = new EventPlanner(orderMenu);
+            OutputView.printOrderMenu(orderMenu);
+        } catch (IllegalArgumentException e) {
+            OutputView.printException(e);
+            takeOrder();
+        }
+    }
+
+    public void handleBenefit(int preDiscountTotalOrderPrice) {
         Map<String, Integer> categoryCount = eventPlanner.calculateCategoryCount();
 
         // receivedBenefits, benefitsTotalAmount
-        Map<String, Integer> receivedBenefits = eventPlanner.calculateReceivedBenefits(categoryCount, preDiscountTotalOrderPrice);
-        int benefitsTotalAmount = eventPlanner.caculateBenefitsTotalAmount(receivedBenefits);
+        Map<String, Integer> receivedBenefits = eventBenefitSettler.calculateReceivedBenefits(categoryCount,
+                preDiscountTotalOrderPrice);
+        int benefitsTotalAmount = eventBenefitSettler.caculateBenefitsTotalAmount(receivedBenefits);
         OutputView.printReceivedBenefits(receivedBenefits);
         OutputView.printBenefitsTotalAmount(benefitsTotalAmount);
 
         // receivedBenefits, preDiscountTotalOrderPrice
-        int discountedTotalAmount = eventPlanner.calculateDiscountedTotalAmount(receivedBenefits, preDiscountTotalOrderPrice);
+        int discountedTotalAmount = eventBenefitSettler.calculateDiscountedTotalAmount(receivedBenefits,
+                preDiscountTotalOrderPrice);
         OutputView.printDiscountedTotalAmount(discountedTotalAmount);
 
         // benefitsTotalAmount
@@ -47,58 +78,5 @@ public class EventController {
         OutputView.printPreDicountTotalOrderPrice(preDiscountTotalOrderPrice);
         OutputView.printGiftMenu(preDiscountTotalOrderPrice);
         return preDiscountTotalOrderPrice;
-    }
-
-
-    public List<Menu> makeOrderMenuList(String orderMenu) {
-        List<Menu> menuList = new ArrayList<>();
-        String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
-
-        // 정규표현식에 맞는 패턴을 생성
-        Pattern regexPattern = Pattern.compile(pattern);
-        Matcher matcher = regexPattern.matcher(orderMenu);
-
-        // 매칭된 결과를 출력
-        while (matcher.find()) {
-            String menuName = matcher.group(1);
-            int menuQuantity = Integer.parseInt(matcher.group(2));
-            menuList.add(new Menu(menuName, menuQuantity));
-        }
-        return menuList;
-    }
-
-    public String takeVisitDate() {
-        try {
-            OutputView.printWelcomeMessage();
-            String visitDate = InputView.readVisitDate();
-            return visitDate;
-        } catch (IllegalArgumentException e) {
-            OutputView.printException(e);
-            return takeVisitDate();
-        }
-    }
-
-    public String takeOrder() {
-        try {
-            String orderMenu = InputView.readMenuOrder();
-            validateOrderMenuForm(orderMenu);
-            OutputView.printOrderMenu(orderMenu);
-            return orderMenu;
-        } catch (NumberFormatException e) {
-            OutputView.printException(e);
-            return takeOrder();
-        } catch (IllegalArgumentException e) {
-            OutputView.printException(e);
-            return takeOrder();
-        }
-    }
-
-    public void validateOrderMenuForm(String orderedMenu) {
-        OrderMenuValidator.checkValidOrderForm(orderedMenu);
-        OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
-        OrderMenuValidator.checkDuplicateMenu(orderedMenu);
-        OrderMenuValidator.checkMaxOrderQuantity(orderedMenu);
-        OrderMenuValidator.checkExistingMenu(orderedMenu);
-        OrderMenuValidator.checkMenuContainsOnlyDrink(orderedMenu);
     }
 }

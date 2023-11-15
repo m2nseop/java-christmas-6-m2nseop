@@ -17,4 +17,13 @@ public enum SpecialDiscountDay {
     public int getSpecialEventDay() {
         return specialEventDay;
     }
+
+    public static boolean isSpecialDay(int visitDate) {
+        for (SpecialDiscountDay day : SpecialDiscountDay.values()) {
+            if (day.getSpecialEventDay() == visitDate){
+                return true;
+            }
+        }
+        return false;
+    }
 }

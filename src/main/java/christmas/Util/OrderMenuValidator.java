@@ -1,6 +1,9 @@
 package christmas.Util;
 
+import static christmas.Event.EventOption.EVENT_END_DATE;
+import static christmas.Event.EventOption.EVENT_START_DATE;
 import static christmas.Event.EventOption.MAX_ORDER_QUANTITY;
+import static christmas.Message.OutputMessage.NOT_A_VALID_DATE;
 
 import christmas.Domain.MenuBoard;
 import christmas.Message.OutputMessage;
@@ -11,6 +14,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class OrderMenuValidator {
+    public static boolean isValidDate(String input) {
+        int number = Integer.parseInt(input);
+        if (number < EVENT_START_DATE || number > EVENT_END_DATE) {
+            throw new IllegalArgumentException(NOT_A_VALID_DATE);
+        }
+        return true;
+    }
     public static void checkValidOrderForm(String input) {
         String pattern = "^[가-힣]+-[0-9]+(,\\s*[가-힣]+-[0-9]+)*$"; // 메뉴 입력 형식
         if (!input.matches(pattern)) {
