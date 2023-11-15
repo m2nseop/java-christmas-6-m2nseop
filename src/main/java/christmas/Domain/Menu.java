@@ -14,11 +14,23 @@ public class Menu {
         checkExistingMenu(menuName);
         this.menuName = menuName;
         this.menuQuantity = Integer.parseInt(menuQuantity);
-        this.menuPrice = getMenuPrice(menuName);
-        this.menuCategory = getMenuCategory(menuName);
+        this.menuPrice = findMenuPrice(menuName);
+        this.menuCategory = findMenuCategory(menuName);
     }
 
-    public static void validateNumber(String input) {
+    public int getMenuTotalPrice() {
+        return this.menuPrice * this.menuQuantity;
+    }
+
+    public int getMenuQuantity() {
+        return this.menuQuantity;
+    }
+
+    public String getMenuCategory() {
+        return this.menuCategory;
+    }
+
+    private void validateNumber(String input) {
         for (char c : input.toCharArray()) {
             if (!Character.isDigit(c)) {
                 throw new NumberFormatException(OutputMessage.INVALID_ORDER_FORM_ERROR);
@@ -33,12 +45,12 @@ public class Menu {
     }
 
     private void checkExistingMenu(String menuName) {
-        if(!MenuBoard.isExistingMenu(menuName)){
+        if (!MenuBoard.isExistingMenu(menuName)) {
             throw new IllegalArgumentException(OutputMessage.NOT_EXIST_MENU_ERROR);
         }
     }
 
-    private String getMenuCategory(String menuName) {
+    private String findMenuCategory(String menuName) {
         String menuCategory = "";
         for (MenuBoard menu : MenuBoard.values()) {
             if (menu.getMenuName().equals(menuName)) {
@@ -48,7 +60,7 @@ public class Menu {
         return menuCategory;
     }
 
-    private int getMenuPrice(String menuName) {
+    private int findMenuPrice(String menuName) {
         int menuPrice = 0;
         for (MenuBoard menu : MenuBoard.values()) {
             if (menu.getMenuName().equals(menuName)) {
@@ -56,25 +68,5 @@ public class Menu {
             }
         }
         return menuPrice;
-    }
-
-    public int getMenuTotalPrice() {
-        return this.menuPrice * this.menuQuantity;
-    }
-
-    public int getMenuPrice() {
-        return menuPrice;
-    }
-
-    public int getMenuQuantity() {
-        return this.menuQuantity;
-    }
-
-    public String getMenuName() {
-        return this.menuName;
-    }
-
-    public String getMenuCategory() {
-        return this.menuCategory;
     }
 }
