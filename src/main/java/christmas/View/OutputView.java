@@ -13,7 +13,7 @@ public class OutputView {
     }
 
     public static void printException(IllegalArgumentException e) {
-        System.out.println(OutputMessage.ERROR_MESSAGE + e.getMessage());
+        System.out.println(e.getMessage());
     }
 
     public static void printOrderMenu(String orderedMenu) {
