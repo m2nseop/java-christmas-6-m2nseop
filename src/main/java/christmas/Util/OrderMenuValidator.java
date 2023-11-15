@@ -14,12 +14,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class OrderMenuValidator {
-    public static boolean isValidDate(String input) {
+    public static void validateDate(String input) {
         int number = Integer.parseInt(input);
         if (number < EVENT_START_DATE || number > EVENT_END_DATE) {
             throw new IllegalArgumentException(NOT_A_VALID_DATE);
         }
-        return true;
     }
 
     public static void checkValidOrderForm(String input) {

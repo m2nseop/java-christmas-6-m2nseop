@@ -13,7 +13,7 @@ public class EventBenefitSettler {
     private final int visitDate;
 
     public EventBenefitSettler(String visitDate) {
-        OrderMenuValidator.isValidDate(visitDate);
+        OrderMenuValidator.validateDate(visitDate);
         this.visitDate = Integer.parseInt(visitDate);
     }
 
