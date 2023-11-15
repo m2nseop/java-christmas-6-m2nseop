@@ -13,9 +13,9 @@ public class EventController {
 
     public void eventStart() {
         OutputView.printWelcomeMessage();
-        takeVisitDate(); // 방문일 접수
+        takeVisitDate();
 
-        takeOrder(); // 주문 받기
+        takeOrder();
 
         int preDiscountTotalOrderPrice = handlePreDiscountTotalOrderPrice();
 
@@ -24,7 +24,7 @@ public class EventController {
 
     public void takeVisitDate() {
         try {
-            String visitDate = InputView.readVisitDate();// 분리할 것인지 고민
+            String visitDate = InputView.readVisitDate();
             eventBenefitSettler = new EventBenefitSettler(visitDate);
         } catch (NumberFormatException e) {
             OutputView.printException(e);
