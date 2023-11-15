@@ -2,12 +2,9 @@ package christmas.EventTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import christmas.Domain.MenuBoard;
 import christmas.Event.EventBadge;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class EventBadgeTest {
     @DisplayName("금액에 맞는 배지를 가져오는지 확인")
