@@ -1,6 +1,6 @@
 package christmas.Util;
 
-import static christmas.Domain.EventOption.MAX_ORDER_QUANTITY;
+import static christmas.Event.EventOption.MAX_ORDER_QUANTITY;
 
 import christmas.Domain.MenuBoard;
 import christmas.Message.OutputMessage;
@@ -60,12 +60,11 @@ public class OrderMenuValidator {
 
     public static void checkMenuContainsOnlyDrink(String input) {
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
-        // 정규표현식에 맞는 패턴을 생성
+
         Pattern regexPattern = Pattern.compile(pattern);
         Matcher matcher = regexPattern.matcher(input);
         int menuNum = 0;
         int drinkNum = 0;
-        // 매칭된 결과를 출력
 
         while (matcher.find()) {
             if (isDrinkMenu(matcher.group(1))) {
@@ -99,13 +98,6 @@ public class OrderMenuValidator {
             }
         }
     }
-
-//    public static boolean isExistMenu(String menu) {
-//        if (isAppetizerMenu(menu) || isMainMenu(menu) || isDessertMenu(menu) || isDrinkMenu(menu)) {
-//            return true;
-//        }
-//        return false;
-//    }
     public static boolean isExistMenu(String menu) {
         for (MenuBoard main : MenuBoard.values()) {
             if (menu.equals(main.getMenuName())) {
@@ -114,31 +106,4 @@ public class OrderMenuValidator {
         }
         return false;
     }
-
-//    public static boolean isMainMenu(String menu) {
-//        for (MenuBoard main : MenuBoard.values()) {
-//            if (menu.equals(main.getFoodName())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public static boolean isDessertMenu(String menu) {
-//        for (MenuBoard dessert : MenuBoard.values()) {
-//            if (menu.equals(dessert.getFoodName())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public static boolean isAppetizerMenu(String menu) {
-//        for (MenuBoard appetizer : MenuBoard.values()) {
-//            if (menu.equals(appetizer.getFoodName())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 }

@@ -1,4 +1,4 @@
-package christmas.Domain;
+package christmas.Event;
 
 public class EventOption {
     public static final int EVENT_YEAR = 2023;

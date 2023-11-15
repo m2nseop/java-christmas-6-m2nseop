@@ -1,6 +1,6 @@
 package christmas.View;
 
-import christmas.Domain.EventOption;
+import christmas.Event.EventOption;
 import christmas.Message.OutputMessage;
 import christmas.Util.CommaFormatter;
 import java.util.Map;

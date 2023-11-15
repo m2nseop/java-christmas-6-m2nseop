@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
 public class EventController {
     public EventPlanner eventPlanner;
 
-    public void evenStart() {
-        String visitDate = takeVisitDate();
+    public void eventStart() {
+        String visitDate = takeVisitDate(); // 방문일 접수
 
-        String orderMenu = takeOrder();
+        String orderMenu = takeOrder(); // 주문 받기
         eventPlanner = new EventPlanner(makeOrderMenuList(orderMenu), visitDate);
         int preDiscountTotalOrderPrice = handleTotalOrderPriceBeforeDiscount();
         handleBenefit(visitDate, preDiscountTotalOrderPrice);
@@ -25,12 +25,18 @@ public class EventController {
 
     public void handleBenefit(String visitDate, int preDiscountTotalOrderPrice) {
         Map<String, Integer> categoryCount = eventPlanner.calculateCategoryCount();
+
+        // receivedBenefits, benefitsTotalAmount
         Map<String, Integer> receivedBenefits = eventPlanner.calculateReceivedBenefits(categoryCount, preDiscountTotalOrderPrice);
         int benefitsTotalAmount = eventPlanner.caculateBenefitsTotalAmount(receivedBenefits);
         OutputView.printReceivedBenefits(receivedBenefits);
         OutputView.printBenefitsTotalAmount(benefitsTotalAmount);
+
+        // receivedBenefits, preDiscountTotalOrderPrice
         int discountedTotalAmount = eventPlanner.calculateDiscountedTotalAmount(receivedBenefits, preDiscountTotalOrderPrice);
         OutputView.printDiscountedTotalAmount(discountedTotalAmount);
+
+        // benefitsTotalAmount
         String eventBadgeType = eventPlanner.caculateEventBadgeType(benefitsTotalAmount);
         OutputView.printEventBadgeType(eventBadgeType);
     }

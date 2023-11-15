@@ -1,4 +1,4 @@
-package christmas.Domain;
+package christmas.Event;
 
 public enum EventBenefit {
     CHRISTMAS_D_DAY_DISCOUNT("크리스마스 디데이 할인", "총 주문 금액", 100),

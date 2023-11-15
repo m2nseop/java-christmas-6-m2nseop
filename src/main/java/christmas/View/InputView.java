@@ -1,6 +1,6 @@
 package christmas.View;
 
-import static christmas.Domain.EventOption.*;
+import static christmas.Event.EventOption.*;
 import static christmas.Message.OutputMessage.*;
 
 import camp.nextstep.edu.missionutils.Console;

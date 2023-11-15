@@ -1,4 +1,4 @@
-package christmas.Domain;
+package christmas.Event;
 
 public enum SpecialDiscountDay {
     DAY_ONE(1),

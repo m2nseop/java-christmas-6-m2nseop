@@ -1,13 +1,14 @@
 package christmas.Domain;
 
-import christmas.Util.CommaFormatter;
+import christmas.Event.EventBadge;
+import christmas.Event.EventBenefit;
+import christmas.Event.EventOption;
+import christmas.Event.SpecialDiscountDay;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class EventPlanner {
     private final List<Menu> orderMenu;
@@ -75,8 +76,8 @@ public class EventPlanner {
 
     public String caculateEventBadgeType(int benefitsTotalAmount) {
         String badgeType = "";
-        for(EventBadge badge : EventBadge.values()){
-            if(badge.getEventBadgeStandard() <= benefitsTotalAmount){
+        for (EventBadge badge : EventBadge.values()) {
+            if (badge.getEventBadgeStandardAmount() <= benefitsTotalAmount) {
                 badgeType = badge.getEventBadgeType();
             }
         }
