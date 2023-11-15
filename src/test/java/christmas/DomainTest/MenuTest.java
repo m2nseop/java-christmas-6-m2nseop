@@ -42,6 +42,6 @@ public class MenuTest {
         Menu menu = new Menu("티본스테이크", "3");
         int expected = 165000;
         int result = menu.getMenuTotalPrice();
-        assertThat(expected).isEqualTo(result);
+        assertThat(result).isEqualTo(expected);
     }
 }
