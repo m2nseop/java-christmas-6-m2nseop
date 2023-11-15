@@ -2,7 +2,6 @@ package christmas.EventTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import christmas.Event.EventBadge;
 import christmas.Event.SpecialDiscountDay;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

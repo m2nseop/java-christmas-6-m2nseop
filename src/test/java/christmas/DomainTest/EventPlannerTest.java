@@ -80,8 +80,8 @@ public class EventPlannerTest {
         Map<String, Integer> categoryCount = new HashMap<>();
         categoryCount.put("디저트", 2);
         categoryCount.put("메인", 3);
-        categoryCount.put("음료",5);
-        categoryCount.put("에피타이저",2);
+        categoryCount.put("음료", 5);
+        categoryCount.put("에피타이저", 2);
         assertThat(eventPlanner.calculateCategoryCount()).isEqualTo(categoryCount);
     }
 }

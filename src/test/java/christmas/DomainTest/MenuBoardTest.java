@@ -20,7 +20,7 @@ public class MenuBoardTest {
 
     @DisplayName("없는 메뉴인지 확인하는 함수 테스트")
     @ParameterizedTest
-    @ValueSource(strings = {"채송이수프", "간바스","리코타치즈샐러드", "찹스테이크"})
+    @ValueSource(strings = {"채송이수프", "간바스", "리코타치즈샐러드", "찹스테이크"})
     void isExistingMenuReturnFalse(String menuName) {
         assertThat(MenuBoard.isExistingMenu(menuName)).isEqualTo(false);
     }
