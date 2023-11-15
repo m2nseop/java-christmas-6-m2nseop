@@ -2,16 +2,10 @@ package christmas.Controller;
 
 import christmas.Domain.EventBenefitSettler;
 import christmas.Domain.EventPlanner;
-import christmas.Domain.Menu;
 import christmas.Event.EventBadge;
-import christmas.Util.OrderMenuValidator;
 import christmas.View.InputView;
 import christmas.View.OutputView;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class EventController {
     public EventPlanner eventPlanner;
@@ -22,7 +16,7 @@ public class EventController {
 
         takeOrder(); // 주문 받기
 
-        int preDiscountTotalOrderPrice = handleTotalOrderPriceBeforeDiscount();
+        int preDiscountTotalOrderPrice = handlePreDiscountTotalOrderPrice();
 
         handleBenefit(preDiscountTotalOrderPrice);
     }
@@ -30,8 +24,7 @@ public class EventController {
     public void takeVisitDate() {
         try {
             OutputView.printWelcomeMessage();
-            String visitDate = InputView.readVisitDate();
-            OrderMenuValidator.isValidDate(visitDate); // 분리할 것인지 고민
+            String visitDate = InputView.readVisitDate();// 분리할 것인지 고민
             eventBenefitSettler = new EventBenefitSettler(visitDate);
         } catch (NumberFormatException e) {
             OutputView.printException(e);
@@ -56,24 +49,37 @@ public class EventController {
     public void handleBenefit(int preDiscountTotalOrderPrice) {
         Map<String, Integer> categoryCount = eventPlanner.calculateCategoryCount();
 
-        // receivedBenefits, benefitsTotalAmount
+        Map<String, Integer> receivedBenefits = handleReceivedBenefits(categoryCount, preDiscountTotalOrderPrice);
+        int benefitsTotalAmount = handlebenefitsTotalAmount(receivedBenefits);
+        handleDiscountedTotalAmount(receivedBenefits, preDiscountTotalOrderPrice);
+        handleEventBadge(benefitsTotalAmount);
+    }
+
+    public Map<String, Integer> handleReceivedBenefits(Map<String, Integer> categoryCount, int preDiscountTotalOrderPrice){
         Map<String, Integer> receivedBenefits = eventBenefitSettler.calculateReceivedBenefits(categoryCount,
                 preDiscountTotalOrderPrice);
-        int benefitsTotalAmount = eventBenefitSettler.caculateBenefitsTotalAmount(receivedBenefits);
         OutputView.printReceivedBenefits(receivedBenefits);
-        OutputView.printBenefitsTotalAmount(benefitsTotalAmount);
+        return receivedBenefits;
+    }
 
-        // receivedBenefits, preDiscountTotalOrderPrice
+    public int handlebenefitsTotalAmount(Map<String, Integer> receivedBenefits){
+        int benefitsTotalAmount = eventBenefitSettler.caculateBenefitsTotalAmount(receivedBenefits);
+        OutputView.printBenefitsTotalAmount(benefitsTotalAmount);
+        return benefitsTotalAmount;
+    }
+
+    public void handleDiscountedTotalAmount(Map<String, Integer> receivedBenefits, int preDiscountTotalOrderPrice){
         int discountedTotalAmount = eventBenefitSettler.calculateDiscountedTotalAmount(receivedBenefits,
                 preDiscountTotalOrderPrice);
         OutputView.printDiscountedTotalAmount(discountedTotalAmount);
+    }
 
-        // benefitsTotalAmount
+    public void handleEventBadge(int benefitsTotalAmount){
         String eventBadgeType = EventBadge.findMyEventBadgeType(benefitsTotalAmount);
         OutputView.printEventBadgeType(eventBadgeType);
     }
 
-    public int handleTotalOrderPriceBeforeDiscount() {
+    public int handlePreDiscountTotalOrderPrice() {
         int preDiscountTotalOrderPrice = eventPlanner.calculatePreDiscountTotalOrderPrice();
         OutputView.printPreDicountTotalOrderPrice(preDiscountTotalOrderPrice);
         OutputView.printGiftMenu(preDiscountTotalOrderPrice);

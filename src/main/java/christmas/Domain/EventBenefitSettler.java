@@ -3,6 +3,7 @@ package christmas.Domain;
 import christmas.Event.EventBenefit;
 import christmas.Event.EventOption;
 import christmas.Event.SpecialDiscountDay;
+import christmas.Util.OrderMenuValidator;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class EventBenefitSettler {
     private final int visitDate;
 
     public EventBenefitSettler(String visitDate) {
+        OrderMenuValidator.isValidDate(visitDate);
         this.visitDate = Integer.parseInt(visitDate);
     }
 

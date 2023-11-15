@@ -20,7 +20,7 @@ public enum SpecialDiscountDay {
 
     public static boolean isSpecialDay(int visitDate) {
         for (SpecialDiscountDay day : SpecialDiscountDay.values()) {
-            if (day.getSpecialEventDay() == visitDate){
+            if (day.getSpecialEventDay() == visitDate) {
                 return true;
             }
         }

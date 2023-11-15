@@ -12,6 +12,7 @@ public class EventOption {
     public static final int MINIMUM_ORDER_PRICE_TO_GET_GIFT_MENU = 120000;
     public static final int MINIMUM_ORDER_PRICE_TO_GET_DISCOUNT = 10000;
     public static final int CHRISTMAS_D_DAY_START_DISCOUNT_AMOUNT = 1000;
+
     private EventOption() {
         // 불필요한 인스턴스 생성 방지
     }

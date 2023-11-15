@@ -21,6 +21,7 @@ public class OrderMenuValidator {
         }
         return true;
     }
+
     public static void checkValidOrderForm(String input) {
         String pattern = "^[가-힣]+-[0-9]+(,\\s*[가-힣]+-[0-9]+)*$"; // 메뉴 입력 형식
         if (!input.matches(pattern)) {
@@ -108,6 +109,7 @@ public class OrderMenuValidator {
             }
         }
     }
+
     public static boolean isExistMenu(String menu) {
         for (MenuBoard main : MenuBoard.values()) {
             if (menu.equals(main.getMenuName())) {

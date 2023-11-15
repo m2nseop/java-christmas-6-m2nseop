@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 public class EventPlanner {
     private final List<Menu> orderMenu;
 
-    public EventPlanner(String orderMenu) {
-        validateOrderMenuForm(orderMenu);
-        List<Menu> menu = makeOrderMenuList(orderMenu);
-        this.orderMenu = menu;
+    public EventPlanner(String menu) {
+        validateOrderMenuForm(menu);
+        List<Menu> orderMenu = createOrderMenuRepository(menu);
+        this.orderMenu = orderMenu;
     }
 
     public int calculatePreDiscountTotalOrderPrice() {
@@ -41,7 +41,7 @@ public class EventPlanner {
         return categoryCount;
     }
 
-    public List<Menu> makeOrderMenuList(String orderMenu) {
+    private List<Menu> createOrderMenuRepository(String orderMenu) {
         List<Menu> menuList = new ArrayList<>();
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
 
@@ -58,7 +58,7 @@ public class EventPlanner {
         return menuList;
     }
 
-    public void validateOrderMenuForm(String orderedMenu) {
+    private void validateOrderMenuForm(String orderedMenu) {
         OrderMenuValidator.checkValidOrderForm(orderedMenu);
         OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
         OrderMenuValidator.checkDuplicateMenu(orderedMenu);
