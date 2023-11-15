@@ -74,16 +74,6 @@ public class EventPlanner {
         return discountedTotalAmount;
     }
 
-    public String caculateEventBadgeType(int benefitsTotalAmount) {
-        String badgeType = "";
-        for (EventBadge badge : EventBadge.values()) {
-            if (badge.getEventBadgeStandardAmount() <= benefitsTotalAmount) {
-                badgeType = badge.getEventBadgeType();
-            }
-        }
-        return badgeType;
-    }
-
     private void caculateSpecialDiscount(Map<String, Integer> receivedBenefits) {
         for (SpecialDiscountDay day : SpecialDiscountDay.values()) {
             if (day.getSpecialEventDay() == this.visitDate) {

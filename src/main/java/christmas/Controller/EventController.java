@@ -2,6 +2,7 @@ package christmas.Controller;
 
 import christmas.Domain.EventPlanner;
 import christmas.Domain.Menu;
+import christmas.Event.EventBadge;
 import christmas.Util.OrderMenuValidator;
 import christmas.View.InputView;
 import christmas.View.OutputView;
@@ -37,7 +38,7 @@ public class EventController {
         OutputView.printDiscountedTotalAmount(discountedTotalAmount);
 
         // benefitsTotalAmount
-        String eventBadgeType = eventPlanner.caculateEventBadgeType(benefitsTotalAmount);
+        String eventBadgeType = EventBadge.findMyEventBadgeType(benefitsTotalAmount);
         OutputView.printEventBadgeType(eventBadgeType);
     }
 

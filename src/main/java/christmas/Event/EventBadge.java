@@ -20,4 +20,13 @@ public enum EventBadge {
     public int getEventBadgeStandardAmount() {
         return eventBadgeStandardAmount;
     }
+    public static String findMyEventBadgeType(int benefitsTotalAmount) {
+        String eventBadgeType = "";
+        for (EventBadge badge : EventBadge.values()) {
+            if (badge.getEventBadgeStandardAmount() <= benefitsTotalAmount ){
+                eventBadgeType = badge.getEventBadgeType();
+            }
+        }
+        return eventBadgeType;
+    }
 }
