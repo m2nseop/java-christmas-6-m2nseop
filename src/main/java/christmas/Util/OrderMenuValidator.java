@@ -90,16 +90,4 @@ public class OrderMenuValidator {
         return false;
     }
 
-//    public static void checkExistingMenu(String input) {
-//        String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
-//        // 정규표현식에 맞는 패턴을 생성
-//        Pattern regexPattern = Pattern.compile(pattern);
-//        Matcher matcher = regexPattern.matcher(input);
-//
-//        while (matcher.find()) {
-//            if (!isExistMenu(matcher.group(1))) {
-//                throw new IllegalArgumentException(OutputMessage.NOT_EXIST_MENU_ERROR);
-//            }
-//        }
-//    }
 }

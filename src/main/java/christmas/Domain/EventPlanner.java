@@ -60,10 +60,8 @@ public class EventPlanner {
 
     private void validateOrderMenuForm(String orderedMenu) {
         OrderMenuValidator.checkValidOrderForm(orderedMenu);
-//        OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
         OrderMenuValidator.checkDuplicateMenu(orderedMenu);
         OrderMenuValidator.checkMaxOrderQuantity(orderedMenu);
-//        OrderMenuValidator.checkExistingMenu(orderedMenu);
         OrderMenuValidator.checkMenuContainsOnlyDrink(orderedMenu);
     }
 }

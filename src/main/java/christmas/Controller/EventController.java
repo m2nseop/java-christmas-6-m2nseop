@@ -3,7 +3,6 @@ package christmas.Controller;
 import christmas.Domain.EventBenefitSettler;
 import christmas.Domain.EventPlanner;
 import christmas.Event.EventBadge;
-import christmas.Message.OutputMessage;
 import christmas.View.InputView;
 import christmas.View.OutputView;
 import java.util.Map;

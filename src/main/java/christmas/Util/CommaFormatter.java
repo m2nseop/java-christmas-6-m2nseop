@@ -6,7 +6,7 @@ public class CommaFormatter {
         int length = numberStr.length();
 
         if (length <= 3) {
-            return numberStr; // 세 자리 미만이면 그대로 반환
+            return numberStr;
         }
         String result = insertComma(numberStr, length);
 
