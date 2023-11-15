@@ -3,6 +3,7 @@ package christmas.Controller;
 import christmas.Domain.EventBenefitSettler;
 import christmas.Domain.EventPlanner;
 import christmas.Event.EventBadge;
+import christmas.Message.OutputMessage;
 import christmas.View.InputView;
 import christmas.View.OutputView;
 import java.util.Map;
@@ -12,6 +13,7 @@ public class EventController {
     public EventBenefitSettler eventBenefitSettler;
 
     public void eventStart() {
+        OutputView.printWelcomeMessage();
         takeVisitDate(); // 방문일 접수
 
         takeOrder(); // 주문 받기
@@ -23,7 +25,6 @@ public class EventController {
 
     public void takeVisitDate() {
         try {
-            OutputView.printWelcomeMessage();
             String visitDate = InputView.readVisitDate();// 분리할 것인지 고민
             eventBenefitSettler = new EventBenefitSettler(visitDate);
         } catch (NumberFormatException e) {
@@ -40,6 +41,9 @@ public class EventController {
             String orderMenu = InputView.readMenuOrder();
             eventPlanner = new EventPlanner(orderMenu);
             OutputView.printOrderMenu(orderMenu);
+        } catch (NumberFormatException e) {
+            OutputView.printException(e);
+            takeOrder();
         } catch (IllegalArgumentException e) {
             OutputView.printException(e);
             takeOrder();

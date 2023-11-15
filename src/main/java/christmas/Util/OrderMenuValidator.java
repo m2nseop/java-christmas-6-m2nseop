@@ -29,13 +29,6 @@ public class OrderMenuValidator {
         }
     }
 
-    public static void checkValidOrderQuantity(String input) { // 개수가 0이상인가?
-        String pattern = "^[가-힣]+-([1-9]\\d*|0*[1-9]\\d+)(,\\s*[가-힣]+-([1-9]\\d*|0*[1-9]\\d+))*$";
-        if (!input.matches(pattern)) {
-            throw new IllegalArgumentException(OutputMessage.INVALID_ORDER_FORM_ERROR);
-        }
-    }
-
     public static void checkDuplicateMenu(String input) {
         // 정규표현식 패턴
         String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
@@ -97,25 +90,16 @@ public class OrderMenuValidator {
         return false;
     }
 
-    public static void checkExistingMenu(String input) {
-        String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
-        // 정규표현식에 맞는 패턴을 생성
-        Pattern regexPattern = Pattern.compile(pattern);
-        Matcher matcher = regexPattern.matcher(input);
-
-        while (matcher.find()) {
-            if (!isExistMenu(matcher.group(1))) {
-                throw new IllegalArgumentException(OutputMessage.NOT_EXIST_MENU_ERROR);
-            }
-        }
-    }
-
-    public static boolean isExistMenu(String menu) {
-        for (MenuBoard main : MenuBoard.values()) {
-            if (menu.equals(main.getMenuName())) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public static void checkExistingMenu(String input) {
+//        String pattern = "([가-힣]+)-([1-9]\\d*|0*[1-9]\\d+)(?:,|$)";
+//        // 정규표현식에 맞는 패턴을 생성
+//        Pattern regexPattern = Pattern.compile(pattern);
+//        Matcher matcher = regexPattern.matcher(input);
+//
+//        while (matcher.find()) {
+//            if (!isExistMenu(matcher.group(1))) {
+//                throw new IllegalArgumentException(OutputMessage.NOT_EXIST_MENU_ERROR);
+//            }
+//        }
+//    }
 }

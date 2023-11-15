@@ -1,5 +1,7 @@
 package christmas.Domain;
 
+import christmas.Message.OutputMessage;
+
 public enum MenuBoard {
     SHIITAKE_MUSHROOM_SOUP("에피타이저", "양송이수프", 6000),
     TAPAS("에피타이저", "타파스", 5500),
@@ -33,5 +35,14 @@ public enum MenuBoard {
 
     public int getMenuPrice() {
         return this.menuPrice;
+    }
+
+    public static boolean isExistingMenu(String menuName) {
+        for (MenuBoard main : MenuBoard.values()) {
+            if (menuName.equals(main.getMenuName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

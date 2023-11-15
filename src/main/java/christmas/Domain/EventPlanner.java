@@ -52,7 +52,7 @@ public class EventPlanner {
         // 매칭된 결과를 출력
         while (matcher.find()) {
             String menuName = matcher.group(1);
-            int menuQuantity = Integer.parseInt(matcher.group(2));
+            String menuQuantity = matcher.group(2);
             menuList.add(new Menu(menuName, menuQuantity));
         }
         return menuList;
@@ -60,10 +60,10 @@ public class EventPlanner {
 
     private void validateOrderMenuForm(String orderedMenu) {
         OrderMenuValidator.checkValidOrderForm(orderedMenu);
-        OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
+//        OrderMenuValidator.checkValidOrderQuantity(orderedMenu);
         OrderMenuValidator.checkDuplicateMenu(orderedMenu);
         OrderMenuValidator.checkMaxOrderQuantity(orderedMenu);
-        OrderMenuValidator.checkExistingMenu(orderedMenu);
+//        OrderMenuValidator.checkExistingMenu(orderedMenu);
         OrderMenuValidator.checkMenuContainsOnlyDrink(orderedMenu);
     }
 }
